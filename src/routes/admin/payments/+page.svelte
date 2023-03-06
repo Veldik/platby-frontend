@@ -7,7 +7,7 @@
         TableBodyRow,
         TableHead,
         TableHeadCell,
-        Button, Spinner, Tooltip
+        Button, Spinner, Tooltip, ButtonGroup
     } from 'flowbite-svelte';
     import axios from "axios";
 
@@ -48,69 +48,80 @@
 </script>
 <Title title="Správa platičů"/>
 
+<ButtonGroup class="m-5 justify-between">
+    <Button gradient shadow="green" color="green" on:click={() => {openNewPaymentModal = true}}>
+        Vytvořit platbu
+    </Button>
+</ButtonGroup>
 
-{#if loadingPayers}
-    <div class="text-center mt-5">
-        <Spinner/>
-    </div>
-{:else}
-    <Table>
-        <caption
-                class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800"
-        >
 
-            <Button class="w-full" on:click={() => {openNewPaymentModal = true}}>
-                Vytvořit platbu
-            </Button>
-        </caption>
-        <TableHead>
-            <TableHeadCell>Název</TableHeadCell>
-            <TableHeadCell>Popis</TableHeadCell>
-            <TableHeadCell>Zaplaceno</TableHeadCell>
-            <TableHeadCell>Akce</TableHeadCell>
-        </TableHead>
-        <TableBody class="divide-y">
+<div class="p-4">
+    {#if loadingPayers}
+        <div class="text-center mt-5">
+            <Spinner color="green"/>
+        </div>
+    {:else}
+        <Table shadow>
+            <TableHead>
+                <TableHeadCell>Název</TableHeadCell>
+                <TableHeadCell>Zaplaceno</TableHeadCell>
+                <TableHeadCell>Akce</TableHeadCell>
+            </TableHead>
+            <TableBody class="divide-y">
 
-            {#each payments as payment}
-                <TableBodyRow>
-                    <TableBodyCell class="font-bold">{payment.title}</TableBodyCell>
-                    <TableBodyCell>{payment.description ? payment.description : ""}</TableBodyCell>
-                    <TableBodyCell>
-                        <div class="flex space-x-4">
-                            {#if payment.status.paid.records === payment.status.total.records}
-                               <IconCheck class="bg-emerald-400 rounded-md mr-1"/>
-                            {:else if payment.status.paid.records === 0}
-                                <IconX class="bg-red-500 rounded-md mr-1"/>
-                            {:else}
-                                <IconQuestionMark class="bg-orange-500 rounded-md mr-1"/>
-
+                {#each payments as payment}
+                    <TableBodyRow>
+                        <TableBodyCell class="font-bold">
+                            <span>
+                                {payment.title}
+                            </span>
+                            {#if payment.description}
+                                <Tooltip>
+                                    {payment.description}
+                                </Tooltip>
                             {/if}
-                            {payment.status.paid.amount} Kč z {payment.status.total.amount} Kč
-                        </div>
-                        <Tooltip placement="left" shadow="true" color={payment.status.paid.records === payment.status.total.records ? "green" : (payment.status.paid.records === 0 ? "red" : "yellow")}>
-                            {payment.status.paid.records} z {payment.status.total.records}
-                        </Tooltip>
-                    </TableBodyCell>
+                        </TableBodyCell>
+                        <TableBodyCell>
+                            <div class="flex space-x-4">
+                                {#if payment.status.paid.records === payment.status.total.records}
+                                    <IconCheck class="bg-emerald-400 rounded-md mr-1"/>
+                                {:else if payment.status.paid.records === 0}
+                                    <IconX class="bg-red-500 rounded-md mr-1"/>
+                                {:else}
+                                    <IconQuestionMark class="bg-orange-500 rounded-md mr-1"/>
 
-                    <TableBodyCell>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <Button class="!p-2"
-                                    on:click={() => {dataPaymentModal = payment; openDetailsPaymentModal = true}}
-                                    color="light">
-                                <IconFileInvoice class="text-amber-500"/>
-                            </Button>
-                            <Button class="!p-2" on:click={() => {dataPaymentModal = payment; openDeletePaymentModal = true}}
-                                    color="light">
-                                <IconTrash class="text-red-500"/>
-                            </Button>
-                        </div>
-                    </TableBodyCell>
-                </TableBodyRow>
-            {/each}
-        </TableBody>
-    </Table>
-{/if}
+                                {/if}
+                                {payment.status.paid.amount} Kč z {payment.status.total.amount} Kč
+                            </div>
+                            <Tooltip placement="left" shadow="true"
+                                     color={payment.status.paid.records === payment.status.total.records ? "green" : (payment.status.paid.records === 0 ? "red" : "yellow")}>
+                                {payment.status.paid.records} z {payment.status.total.records}
+                            </Tooltip>
+                        </TableBodyCell>
 
-<DetailsPaymentModal bind:open={openDetailsPaymentModal} data={dataPaymentModal} refresh={fetchData} bind:loading={loadingPayers}/>
+                        <TableBodyCell>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <Button class="!p-2"
+                                        on:click={() => {dataPaymentModal = payment; openDetailsPaymentModal = true}}
+                                        color="light">
+                                    <IconFileInvoice class="text-amber-500"/>
+                                </Button>
+                                <Button class="!p-2"
+                                        on:click={() => {dataPaymentModal = payment; openDeletePaymentModal = true}}
+                                        color="light">
+                                    <IconTrash class="text-red-500"/>
+                                </Button>
+                            </div>
+                        </TableBodyCell>
+                    </TableBodyRow>
+                {/each}
+            </TableBody>
+        </Table>
+    {/if}
+</div>
+
+<DetailsPaymentModal bind:open={openDetailsPaymentModal} data={dataPaymentModal} refresh={fetchData}
+                     bind:loading={loadingPayers}/>
 <NewPayementModal bind:open={openNewPaymentModal} refresh={fetchData} bind:loading={loadingPayers}/>
-<DeletePaymentModal bind:open={openDeletePaymentModal} data={dataPaymentModal} refresh={fetchData} bind:loading={loadingPayers}/>
+<DeletePaymentModal bind:open={openDeletePaymentModal} data={dataPaymentModal} refresh={fetchData}
+                    bind:loading={loadingPayers}/>

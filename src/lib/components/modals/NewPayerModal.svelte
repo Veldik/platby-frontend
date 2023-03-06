@@ -13,7 +13,7 @@
             <span>Email</span>
             <Input type="email" name="email" placeholder="josef@tesar.cz" bind:value={data.email} required/>
         </Label>
-        <Button type="submit">
+        <Button gradient shadow="green" color="green" type="submit">
             <IconEdit class="mr-1"/>
             Přidat
         </Button>

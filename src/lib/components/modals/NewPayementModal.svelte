@@ -19,7 +19,7 @@
                 <NumberInput placeholder="1350" bind:value={totalAmount} required/>
                 <InputAddon>Kč</InputAddon>
             </ButtonGroup>
-            <Checkbox bind:checked={amIPayer}>Platím taky</Checkbox>
+            <Checkbox color="green" bind:checked={amIPayer}>Platím taky</Checkbox>
         </Label>
 
         <Label class="space-y-2">
@@ -43,7 +43,7 @@
             {/each}
         </div>
 
-        <Button disabled={selectedPayers.length === 0 || !title} type="submit">
+        <Button gradient shadow="green" color="green" disabled={selectedPayers.length === 0 || !title} type="submit">
             <IconCash class="mr-1"/>
             Vytvořit platbu
         </Button>

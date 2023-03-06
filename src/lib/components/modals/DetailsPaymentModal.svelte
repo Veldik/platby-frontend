@@ -1,6 +1,6 @@
 <Modal title="Detail platby - {data.title}" lg bind:open={open} autoclose>
     {#if data.description}
-        <p class="text-gray-100">{data.description}</p>
+        <p class="text-gray-500 dark:text-gray-400">{data.description}</p>
     {/if}
     <div class="flex justify-between items-center mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Přehled jednotlivých plateb</h5>

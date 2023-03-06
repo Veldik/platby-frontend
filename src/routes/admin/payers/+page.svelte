@@ -8,7 +8,7 @@
         TableBodyRow,
         TableHead,
         TableHeadCell,
-        Button, Spinner, Tooltip
+        Button, Spinner, Tooltip, ButtonGroup
     } from 'flowbite-svelte';
     import axios from "axios";
 
@@ -47,67 +47,70 @@
 </script>
 <Title title="Správa platičů"/>
 
+<ButtonGroup class="m-5">
+    <Button gradient shadow="green" color="green" on:click={() => {openNewPayerModal = true}}>
+        Přidat platiče
+    </Button>
+</ButtonGroup>
 
-{#if loadingPayers}
-    <div class="text-center mt-5">
-        <Spinner/>
-    </div>
-{:else}
-    <Table>
-        <caption
-                class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800"
-        >
 
-            <Button class="w-full" on:click={() => {openNewPayerModal = true}}>
-                Přidat platiče
-            </Button>
-        </caption>
-        <TableHead>
-            <TableHeadCell>Jméno</TableHeadCell>
-            <TableHeadCell>Mail</TableHeadCell>
-            <TableHeadCell>Zaplaceno</TableHeadCell>
-            <TableHeadCell>Akce</TableHeadCell>
-        </TableHead>
-        <TableBody class="divide-y">
+<div class="p-4">
+    {#if loadingPayers}
+        <div class="text-center mt-5">
+            <Spinner color="green"/>
+        </div>
+    {:else}
+        <Table shadow>
+            <TableHead>
+                <TableHeadCell>Jméno</TableHeadCell>
+                <TableHeadCell>Zaplaceno</TableHeadCell>
+                <TableHeadCell>Akce</TableHeadCell>
+            </TableHead>
+            <TableBody class="divide-y">
 
-            {#each payers as payer}
-                <TableBodyRow>
-                    <TableBodyCell class="font-bold">{payer.firstName} {payer.lastName}</TableBodyCell>
-                    <TableBodyCell><a href="mailto:{payer.email}" target="_blank">{payer.email}</a></TableBodyCell>
-                    <TableBodyCell>
-                        <div class="flex space-x-4">
-                            {#if payer.status.paid.records === payer.status.total.records}
-                                <IconCheck class="bg-emerald-400 rounded-md mr-1"/>
-                            {:else if payer.status.paid.records === 0}
-                                <IconX class="bg-red-500 rounded-md mr-1"/>
-                            {:else}
-                                <IconQuestionMark class="bg-orange-500 rounded-md mr-1"/>
+                {#each payers as payer}
+                    <TableBodyRow>
+                        <TableBodyCell class="font-bold"><a href="mailto:{payer.email}" target="_blank">{payer.firstName} {payer.lastName}</a>
+                            <Tooltip>
+                                {payer.email}
+                            </Tooltip>
+                        </TableBodyCell>
+                        <TableBodyCell>
+                            <div class="flex space-x-4">
+                                {#if payer.status.paid.records === payer.status.total.records}
+                                    <IconCheck class="bg-emerald-400 rounded-md mr-1"/>
+                                {:else if payer.status.paid.records === 0}
+                                    <IconX class="bg-red-500 rounded-md mr-1"/>
+                                {:else}
+                                    <IconQuestionMark class="bg-orange-500 rounded-md mr-1"/>
 
-                            {/if}
-                            {payer.status.paid.amount} Kč z {payer.status.total.amount} Kč
-                        </div>
-                        <Tooltip placement="left" shadow="true" color={payer.status.paid.records === payer.status.total.records ? "green" : (payer.status.paid.records === 0 ? "red" : "yellow")}>
-                            {payer.status.paid.records} z {payer.status.total.records}
-                        </Tooltip>
-                    </TableBodyCell>
-                    <TableBodyCell>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <Button class="!p-2"
-                                    on:click={() => {dataPayerModal = payer; openEditPayerModal = true}}
-                                    color="light">
-                                <IconEdit class="text-amber-500"/>
-                            </Button>
-                            <Button class="!p-2" on:click={() => openDeletePayerModal = {opened: true, data: payer}}
-                                    color="light">
-                                <IconTrash class="text-red-500"/>
-                            </Button>
-                        </div>
-                    </TableBodyCell>
-                </TableBodyRow>
-            {/each}
-        </TableBody>
-    </Table>
-{/if}
+                                {/if}
+                                {payer.status.paid.amount} Kč z {payer.status.total.amount} Kč
+                            </div>
+                            <Tooltip placement="left" shadow="true"
+                                     color={payer.status.paid.records === payer.status.total.records ? "green" : (payer.status.paid.records === 0 ? "red" : "yellow")}>
+                                {payer.status.paid.records} z {payer.status.total.records}
+                            </Tooltip>
+                        </TableBodyCell>
+                        <TableBodyCell>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <Button class="!p-2"
+                                        on:click={() => {dataPayerModal = payer; openEditPayerModal = true}}
+                                        color="light">
+                                    <IconEdit class="text-amber-500"/>
+                                </Button>
+                                <Button class="!p-2" on:click={() => openDeletePayerModal = {opened: true, data: payer}}
+                                        color="light">
+                                    <IconTrash class="text-red-500"/>
+                                </Button>
+                            </div>
+                        </TableBodyCell>
+                    </TableBodyRow>
+                {/each}
+            </TableBody>
+        </Table>
+    {/if}
+</div>
 
 <NewPayerModal bind:open={openNewPayerModal} refresh={fetchData} bind:loading={loadingPayers}/>
 <EditPayerModal bind:open={openEditPayerModal} bind:data={dataPayerModal} refresh={fetchData}
