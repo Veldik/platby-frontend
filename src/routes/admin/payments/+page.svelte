@@ -46,7 +46,7 @@
     import DeletePaymentModal from "$lib/components/modals/DeletePaymentModal.svelte";
     import DetailsPaymentModal from "$lib/components/modals/DetailsPaymentModal.svelte";
 </script>
-<Title title="Správa platičů"/>
+<Title title="Správa plateb"/>
 
 <ButtonGroup class="m-5 justify-between">
     <Button gradient shadow="green" color="green" on:click={() => {openNewPaymentModal = true}}>
