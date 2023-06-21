@@ -43,7 +43,7 @@
             {/each}
         </div>
 
-        <Button gradient shadow="green" color="green" disabled={selectedPayers.length === 0 || !title} type="submit">
+        <Button gradient shadow="green" color="green" disabled={selectedPayers.length === 0 || !title || disabledSubmit} type="submit">
             <IconCash class="mr-1"/>
             Vytvořit platbu
         </Button>
@@ -65,6 +65,7 @@
     let totalAmount;
     let amIPayer = true;
     let title, description = "";
+    let disabledSubmit = false;
 
     onMount(async () => {
         const payersResponse = await axios.get('payers', {withCredentials: true});
@@ -97,6 +98,7 @@
             })
         })
 
+        disabledSubmit = true;
         await axios.post(`payments`, JSON.stringify({
             "title": title,
             "description": description,
@@ -112,6 +114,7 @@
         title, description = "";
         open = false;
         loading = false;
+        disabledSubmit = false;
     };
 
 </script>

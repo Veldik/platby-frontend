@@ -13,7 +13,7 @@
 
     import {onMount} from "svelte";
 
-    import {IconTrash, IconFileInvoice, IconCheck, IconX, IconQuestionMark} from "@tabler/icons-svelte";
+    import {IconTrash, IconFileInvoice, IconCheck, IconX, IconQuestionMark, IconMailForward} from "@tabler/icons-svelte";
 
     let openNewPaymentModal = false;
     let openDeletePaymentModal = false;
