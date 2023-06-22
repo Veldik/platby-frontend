@@ -100,4 +100,3 @@
 </script>
 
 <QRCodeModal bind:open={openQRCodeModal} data={qrCodeData} refresh={refresh}/>
-```
