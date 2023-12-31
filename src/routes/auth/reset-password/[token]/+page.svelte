@@ -6,9 +6,11 @@
     import {onMount} from "svelte";
     import {goto} from "$app/navigation";
 
-    let email = '', errorMessage = '', goodMessage = '';
+    let password = '', password_confirmation = '', errorMessage = '', goodMessage = '', token = '';
+
 
     onMount(async () => {
+        token = window.location.href.split('/').pop()
         if (Cookies.get('token')) {
             const response = await axios.get('user', {withCredentials: true})
 
@@ -21,15 +23,16 @@
                 }
             }
         }
+        //
     })
 
     $: submit = async () => {
-        axios.post(`change-password`, {
-            email
+        axios.post(`reset-password`, {
+            password, password_confirmation, token
         }, {withCredentials: true}).then(response => {
                 if (response.status === 200) {
                     errorMessage = ""
-                    goodMessage = "Požadavek pro změnu hesla byl úspěšně odeslán na e-mail."
+                    goodMessage = "Heslo bylo úspěšně změněno. Nyní se můžete přihlásit."
                 } else {
                     goodMessage = ""
                     errorMessage = "Něco se pokazilo, zkuste to prosím znovu."
@@ -51,11 +54,17 @@
     </div>
     <div class="sm:w-96 w-full">
         <form on:submit|preventDefault={submit} class="flex flex-col">
-            <div class="flex flex-col pb-2">
-                <label for="email" class="text-dark font-bold">E-mail</label>
-                <input bind:value={email} type="email" name="email" id="email"
-                       class="input rounded focus:ring-green-400 focus:border-green-400" placeholder="E-mail"
-                       required autocomplete="username">
+            <div class="flex flex-col">
+                <label for="password" class="text-dark font-bold">Nové heslo</label>
+                <input bind:value={password} type="password" name="password" id="password"
+                       class="input rounded focus:ring-green-400 focus:border-green-400" placeholder="Heslo"
+                       required autocomplete="">
+            </div>
+            <div class="flex flex-col">
+                <label for="password" class="text-dark font-bold">Heslo znovu</label>
+                <input bind:value={password_confirmation} type="password" name="password_confirmation" id="password_confirmation"
+                       class="input rounded focus:ring-green-400 focus:border-green-400" placeholder="Heslo"
+                       required autocomplete="">
             </div>
             <div class="text-gray-500 text-sm pb-2 hover:underline">
                 <a href="/">
