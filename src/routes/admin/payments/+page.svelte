@@ -145,18 +145,14 @@
                         </TableBodyCell>
 
                         <TableBodyCell>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <Button class="!p-2"
-                                        on:click={() => {dataPaymentModal = fetchPaymentData(payment.id)}}
-                                        color="light">
-                                    <IconFileInvoice class="text-amber-500"/>
+                            <ButtonGroup>
+                                <Button color="yellow" on:click={() => {dataPaymentModal = fetchPaymentData(payment.id)}}>
+                                    <IconFileInvoice/>
                                 </Button>
-                                <Button class="!p-2"
-                                        on:click={() => {dataPaymentModal = payment; openDeletePaymentModal = true}}
-                                        color="light">
-                                    <IconTrash class="text-red-500"/>
+                                <Button color="red" on:click={() => {dataPaymentModal = payment; openDeletePaymentModal = true}}>
+                                    <IconTrash/>
                                 </Button>
-                            </div>
+                            </ButtonGroup>
                         </TableBodyCell>
                     </TableBodyRow>
                 {/each}

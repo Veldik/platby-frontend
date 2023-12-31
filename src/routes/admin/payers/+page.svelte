@@ -50,7 +50,7 @@
 <div class="p-4">
     {#if loadingPayers}
         <div class="text-center mt-5">
-            <Spinner color="green"/>
+            <Spinner color="yellow"/>
         </div>
     {:else}
         <div class="pb-4 text-center">
@@ -91,17 +91,14 @@
                             </Tooltip>
                         </TableBodyCell>
                         <TableBodyCell>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <Button class="!p-2"
-                                        on:click={() => {dataPayerModal = payer; openEditPayerModal = true}}
-                                        color="light">
-                                    <IconEdit class="text-amber-500"/>
+                            <ButtonGroup>
+                                <Button color="yellow" on:click={() => {dataPayerModal = payer; openEditPayerModal = true}}>
+                                    <IconEdit/>
                                 </Button>
-                                <Button class="!p-2" on:click={() => openDeletePayerModal = {opened: true, data: payer}}
-                                        color="light">
-                                    <IconTrash class="text-red-500"/>
+                                <Button color="red" on:click={() => openDeletePayerModal = {opened: true, data: payer}}>
+                                    <IconTrash/>
                                 </Button>
-                            </div>
+                            </ButtonGroup>
                         </TableBodyCell>
                     </TableBodyRow>
                 {/each}

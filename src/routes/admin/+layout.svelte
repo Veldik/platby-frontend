@@ -38,6 +38,10 @@
             "title": "Platiči",
             "path": "/admin/payers"
         },
+        {
+            "title": "Pravidelné platby",
+            "path": "/admin/period-payments"
+        },
     ]
 
     let showUserMenu, showMobileMenu = false;
