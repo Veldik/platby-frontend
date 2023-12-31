@@ -34,7 +34,7 @@
     let payers = [];
 
     async function fetchData() {
-        const response = await axios.get('payers', {withCredentials: true})
+        const response = await axios.get('admin/payers', {withCredentials: true})
 
         payers = response.data.data;
         loadingPayers = false;
@@ -47,19 +47,17 @@
 </script>
 <Title title="Správa platičů"/>
 
-<ButtonGroup class="m-5">
-    <Button gradient shadow="green" color="green" on:click={() => {openNewPayerModal = true}}>
-        Přidat platiče
-    </Button>
-</ButtonGroup>
-
-
 <div class="p-4">
     {#if loadingPayers}
         <div class="text-center mt-5">
             <Spinner color="green"/>
         </div>
     {:else}
+        <div class="pb-4 text-center">
+            <Button class="duration-200" color="yellow" on:click={() => {openNewPayerModal = true}}>
+                Přidat platiče
+            </Button>
+        </div>
         <Table shadow>
             <TableHead>
                 <TableHeadCell>Jméno</TableHeadCell>

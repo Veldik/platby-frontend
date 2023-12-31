@@ -14,7 +14,7 @@ axios.interceptors.response.use(response => response, async error => {
     if (error?.response?.status === 401 && !refresh) {
         refresh = true;
 
-        goto('/login')
+        goto('/')
     }
 
     return error;

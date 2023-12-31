@@ -13,7 +13,7 @@
             <span>Email</span>
             <Input type="email" name="email" placeholder="josef@tesar.cz" bind:value={data.email} required/>
         </Label>
-        <Button gradient shadow="green" color="green" type="submit">
+        <Button color="yellow" type="submit" disabled={!data.firstName || !data.lastName || !data.email}>
             <IconEdit class="mr-1"/>
             Přidat
         </Button>
@@ -36,7 +36,7 @@
         }
 
         loading = true
-        await axios.post(`payers`, JSON.stringify(json))
+        await axios.post(`admin/payers`, JSON.stringify(json))
         await refresh();
         open = false;
         loading = false;

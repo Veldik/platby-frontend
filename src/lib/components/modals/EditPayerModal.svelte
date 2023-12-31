@@ -13,9 +13,9 @@
             <span>Email</span>
             <Input type="email" name="email" placeholder="josef@tesar.cz" bind:value={data.email} required/>
         </Label>
-        <Button type="submit">
+        <Button color="yellow" type="submit" disabled={!data.firstName || !data.lastName || !data.email}>
             <IconEdit class="mr-1"/>
-            Upravit
+            Upravit platiče
         </Button>
     </form>
 </Modal>
@@ -35,7 +35,7 @@
         }
 
         loading = true
-        await axios.put(`payers/${json.id}`, JSON.stringify(json))
+        await axios.put(`admin/payers/${json.id}`, JSON.stringify(json))
         await refresh();
         open = false;
         loading = false;

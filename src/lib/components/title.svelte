@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>{title} | Veldovy platby</title>
+    <title>{title} | veldapay</title>
 </svelte:head>
 
 <script>

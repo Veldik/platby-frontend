@@ -1,7 +1,7 @@
 <Modal bind:open={open} autoclose>
     <div class="flex items-center">
         <IconTrash class="mr-2"/>
-        <h2 class="text-2xl font-bold text-dark py-3">Odstranění platiče</h2>
+        <h2 class="text-2xl font-bold text-dark py-3">Odstranění platby</h2>
 
     </div>
     <div class="text-center">
@@ -21,7 +21,7 @@
     export let open, data, refresh, loading;
     const removePayment = async () => {
         loading = true
-        await axios.delete(`payments/${data.id}`)
+        await axios.delete(`admin/payments/${data.id}`)
         await refresh();
         open = false;
         loading = false;

@@ -19,7 +19,7 @@
                 <NumberInput placeholder="1350" bind:value={totalAmount} required/>
                 <InputAddon>Kč</InputAddon>
             </ButtonGroup>
-            <Checkbox color="green" bind:checked={amIPayer}>Platím taky</Checkbox>
+            <Checkbox color="yellow" bind:checked={amIPayer}>Platím taky</Checkbox>
         </Label>
 
         <Label class="space-y-2">
@@ -43,7 +43,7 @@
             {/each}
         </div>
 
-        <Button gradient shadow="green" color="green" disabled={selectedPayers.length === 0 || !title || disabledSubmit} type="submit">
+        <Button color="yellow" disabled={selectedPayers.length === 0 || !title || disabledSubmit} type="submit">
             <IconCash class="mr-1"/>
             Vytvořit platbu
         </Button>
@@ -68,7 +68,7 @@
     let disabledSubmit = false;
 
     onMount(async () => {
-        const payersResponse = await axios.get('payers', {withCredentials: true});
+        const payersResponse = await axios.get('admin/payers', {withCredentials: true});
 
         if (payersResponse.status === 200) {
             payersResponse.data.data.forEach(payer => {
@@ -99,22 +99,23 @@
         })
 
         disabledSubmit = true;
-        await axios.post(`payments`, JSON.stringify({
+        await axios.post(`admin/payments`, JSON.stringify({
             "title": title,
             "description": description,
             "payers": postPayers
         }))
-        await refresh();
         payers = [];
         selectedPayers = [];
         selectmenuPayers = [];
-        selected;
-        totalAmount;
+        selected = [];
+        totalAmount = null;
         amIPayer = true;
-        title, description = "";
+        title = "";
+        description = "";
         open = false;
         loading = false;
         disabledSubmit = false;
+        await refresh();
     };
 
 </script>

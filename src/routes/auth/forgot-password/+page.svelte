@@ -56,37 +56,9 @@
         </div>
     </div>
     <div class="sm:w-96 w-full">
-        <form on:submit|preventDefault={submit} class="flex flex-col">
-            <div class="flex flex-col pb-2">
-                <label for="email" class="text-dark font-bold">E-mail</label>
-                <input bind:value={email} type="email" name="email" id="email"
-                       class="input rounded focus:ring-green-400 focus:border-green-400" placeholder="E-mail"
-                       required autocomplete="username">
-            </div>
-            <div class="flex flex-col">
-                <label for="password" class="text-dark font-bold">Heslo</label>
-                <input bind:value={password} type="password" name="password" id="password"
-                       class="input rounded focus:ring-green-400 focus:border-green-400" placeholder="Heslo"
-                       required autocomplete="current-password">
-            </div>
-            <div class="text-gray-500 text-sm pb-2 hover:underline">
-                <a href="/auth/forgot-password">
-                    registrovat se / obnovit heslo
-                </a>
-            </div>
-
-            {#if errorMessage}
-                <div class="text-red-500 text-sm pb-2">
-                    {errorMessage}
-                </div>
-            {/if}
-
-            <div class="flex flex-col items-center justify-center">
-                <button type="submit"
-                        class="px-3 py-2 bg-black text-white rounded hover:bg-gray-900 transform duration-200">Přihlásit se
-                </button>
-            </div>
-        </form>
+        <p class="text-center">
+            Obnova hesla není aktuálně k dispozici.
+        </p>
     </div>
     <div class="flex flex-col items-center justify-center">
         <p>

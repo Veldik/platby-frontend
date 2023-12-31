@@ -1,4 +1,4 @@
-<Modal title="Detail platby - {data.title}" lg bind:open={open} autoclose>
+<Modal title={data.title} lg bind:open={open} autoclose>
     {#if data.description}
         <p class="text-gray-500 dark:text-gray-400">{data.description}</p>
     {/if}
@@ -12,7 +12,7 @@
                     {item.payer.firstName} {item.payer.lastName}
                 </p>
                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    {#if item.paid_at !== null}
+                    {#if item.paidAt !== null}
                         <div class="flex items-center text-green-400">
                             <IconCheck class="mr-2"/> {dayjs(item.paid_at).format('DD.MM.YYYY HH:mm')}
                         </div>
@@ -26,12 +26,12 @@
                 </p>
             </div>
             <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                {#if item.paid_at !== null}
+                {#if item.paidAt !== null}
 
                 {:else}
                     <div>
                         <Button class="!p-2 border-0"
-                                on:click={() => {qrCodeData = item.qr_code; openQRCodeModal = true;}}
+                                on:click={() => {fetchPaymentQRCode(item.id)}}
                                 color="light">
                             <IconQrcode class="text-gray-300"/>
                         </Button>
@@ -69,8 +69,14 @@
     import toast from "svelte-french-toast";
     import QRCodeModal from "$lib/components/modals/QRCodeModal.svelte";
 
+    async function fetchPaymentQRCode(id) {
+        const response = await axios.get(`admin/payment-record/${id}/qrcode`, {withCredentials: true})
+        qrCodeData = response.data.data;
+        openQRCodeModal = true;
+    }
+
     const reSendMail = async (id) => {
-        const response = await axios.post(`payment-record/${id}/resend`, {withCredentials: true});
+        const response = await axios.post(`admin/payment-record/${id}/resend`, {withCredentials: true});
         if (response.status === 200) {
             toast.success('Email byl úspěšně odeslán')
         } else {
@@ -81,7 +87,7 @@
     };
 
     const pay = async (id) => {
-        const response = await axios.post(`payment-record/${id}/pay`, {withCredentials: true});
+        const response = await axios.post(`admin/payment-record/${id}/pay`, {withCredentials: true});
         if (response.status === 200) {
             toast.success('Platba byla zaznamenána jako zaplacená')
         } else {
@@ -94,10 +100,8 @@
     let openQRCodeModal = false;
     let qrCodeData = null;
 
-
     export let open, data, refresh, loading;
 
 </script>
 
 <QRCodeModal bind:open={openQRCodeModal} data={qrCodeData} refresh={refresh}/>
-```

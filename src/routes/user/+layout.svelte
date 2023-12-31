@@ -28,15 +28,15 @@
     const navigation = [
         {
             "title": "Domů",
-            "path": "/admin"
+            "path": "/user"
         },
         {
             "title": "Platby",
-            "path": "/admin/payments"
+            "path": "/user/payments"
         },
         {
-            "title": "Platiči",
-            "path": "/admin/payers"
+            "title": "Kredity",
+            "path": "/user/credits"
         },
     ]
 
@@ -124,7 +124,6 @@
     <footer
             class="sticky border-t top-[100vh] text-center lg:text-left">
         <div class="p-4 text-center">
-            veldapay administrace <br/>
             Vytvořil
             <a
                     class="font-bold hover:underline"

@@ -20,7 +20,7 @@
 
     const removePayer = async () => {
         loading = true
-        await axios.delete(`payers/${modaldata.data.id}`)
+        await axios.delete(`admin/payers/${modaldata.data.id}`)
         await refresh();
         loading = false;
     };

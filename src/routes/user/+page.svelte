@@ -9,42 +9,25 @@
     let stats, data;
     let loadingStats = true;
     onMount(async () => {
-        const response = await axios.get('admin/stats', {withCredentials: true})
+        const response = await axios.get('payer', {withCredentials: true})
 
         if (response.status === 200) {
-            data = response.data.data;
+            data = response.data.data.status;
+            console.log(response.data)
 
             stats = [
                 {
-                    "title": "Platby",
-                    "description": "Celkový počet plateb",
-                    "value": data.payments
-                },
-                {
-                    "title": "Platiči",
-                    "description": "Celkový počet platičů",
-                    "value": data.payers
-                },
-                {
                     "title": "Zaplaceno",
-                    "description": "Celkem bylo zaplaceno",
+                    "description": "Celkem si zaplatil",
                     "value": `${data.paid.amount} Kč`,
                     "tooltip": `${data.paid.records} plateb`
                 },
                 {
                     "title": "Nezaplaceno",
-                    "description": "Celkem nebylo zaplaceno",
+                    "description": "Celkem ti zbývá zaplatit",
                     "value": `${data.unpaid.amount} Kč`,
                     "tooltip": `${data.unpaid.records} plateb`
                 },
-                {
-                    "title": "Uživatelé",
-                    "description": "Celkový počet uživatelů",
-                    "value": data.users.total,
-                    "tooltip": `${data.users.admins} adminů a ${data.users.users} platičů`
-
-                }
-
             ]
 
             loadingStats = false;
@@ -53,7 +36,7 @@
 
 </script>
 
-<Title title="Administrace"/>
+<Title title="Uživatelské rozhraní"/>
 
 {#if loadingStats}
     <div class="text-center mt-5">
