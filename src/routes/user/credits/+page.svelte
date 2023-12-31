@@ -38,7 +38,7 @@
     let placement = 'bottom';
 
 </script>
-<Title title="Seznam plateb"/>
+<Title title="Správa kreditů"/>
 
 
 <div class="p-4">

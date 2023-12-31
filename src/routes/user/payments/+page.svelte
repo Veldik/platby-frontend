@@ -42,7 +42,7 @@
         loadingQrCode = false;
     }
 </script>
-<Title title="Seznam plateb"/>
+<Title title="Správa plateb"/>
 
 
 <div class="p-4">

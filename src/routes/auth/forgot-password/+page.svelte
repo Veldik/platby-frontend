@@ -41,7 +41,7 @@
     }
 </script>
 
-<Title title="Domů"/>
+<Title title="Obnova hesla"/>
 
 <main class="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-32">
     <div class="flex flex-col items-center justify-center">
