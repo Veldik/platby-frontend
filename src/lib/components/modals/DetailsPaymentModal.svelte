@@ -14,7 +14,7 @@
                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">
                     {#if item.paidAt !== null}
                         <div class="flex items-center text-green-400">
-                            <IconCheck class="mr-2"/> {dayjs(item.paid_at).format('DD.MM.YYYY HH:mm')}
+                            <IconCheck class="mr-2"/> {dayjs(item.paidAt).format('DD.MM.YYYY HH:mm')}
                         </div>
                     {:else}
 
