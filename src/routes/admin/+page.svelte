@@ -43,8 +43,17 @@
                     "value": data.users.total,
                     "tooltip": `${data.users.admins} adminů a ${data.users.users} platičů`
 
+                },
+                {
+                    "title": "Kredity",
+                    "description": "Celkový počet kreditů",
+                    "value": `${new Intl.NumberFormat('cs-CZ', {
+                            style: 'currency',
+                            currency: 'CZK',
+                            minimumFractionDigits: 0,
+                        }).format(data.credits.amount.total)}`,
+                    "tooltip": `${data.credits.records.total} pohybů`
                 }
-
             ]
 
             loadingStats = false;
