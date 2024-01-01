@@ -62,6 +62,7 @@
             <TableHead>
                 <TableHeadCell>Jméno</TableHeadCell>
                 <TableHeadCell>Zaplaceno</TableHeadCell>
+                <TableHeadCell>Kredit</TableHeadCell>
                 <TableHeadCell>Akce</TableHeadCell>
             </TableHead>
             <TableBody class="divide-y">
@@ -83,12 +84,29 @@
                                     <IconQuestionMark class="bg-orange-500 rounded-md mr-1"/>
 
                                 {/if}
-                                {payer.status.paid.amount} Kč z {payer.status.total.amount} Kč
+                                {new Intl.NumberFormat('cs-CZ', {
+                                    style: 'currency',
+                                    currency: 'CZK',
+                                    minimumFractionDigits: 0,
+                                }).format(payer.status.paid.amount)}
+                                z
+                                {new Intl.NumberFormat('cs-CZ', {
+                                    style: 'currency',
+                                    currency: 'CZK',
+                                    minimumFractionDigits: 0,
+                                }).format(payer.status.total.amount)}
                             </div>
                             <Tooltip placement="left" shadow="true"
                                      color={payer.status.paid.records === payer.status.total.records ? "green" : (payer.status.paid.records === 0 ? "red" : "yellow")}>
                                 {payer.status.paid.records} z {payer.status.total.records}
                             </Tooltip>
+                        </TableBodyCell>
+                        <TableBodyCell>
+                            {new Intl.NumberFormat('cs-CZ', {
+                                style: 'currency',
+                                currency: 'CZK',
+                                minimumFractionDigits: 0,
+                            }).format(payer.creditSum)}
                         </TableBodyCell>
                         <TableBodyCell>
                             <ButtonGroup>

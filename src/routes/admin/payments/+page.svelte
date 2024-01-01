@@ -136,7 +136,17 @@
                                     <IconQuestionMark class="bg-orange-200 rounded-md mr-1"/>
 
                                 {/if}
-                                {payment.status.paid.amount} Kč z {payment.status.total.amount} Kč
+                                {new Intl.NumberFormat('cs-CZ', {
+                                    style: 'currency',
+                                    currency: 'CZK',
+                                    minimumFractionDigits: 0,
+                                }).format(payment.status.paid.amount)}
+                                z
+                                {new Intl.NumberFormat('cs-CZ', {
+                                style: 'currency',
+                                currency: 'CZK',
+                                minimumFractionDigits: 0,
+                            }).format(payment.status.total.amount)}
                             </div>
                             <Tooltip placement="left" shadow="true"
                                      color={payment.status.paid.records === payment.status.total.records ? "green" : (payment.status.paid.records === 0 ? "red" : "yellow")}>
