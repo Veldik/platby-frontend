@@ -77,12 +77,11 @@
                         <TableBodyCell>
                             <div class="flex space-x-4">
                                 {#if payer.status.paid.records === payer.status.total.records}
-                                    <IconCheck class="bg-emerald-400 rounded-md mr-1"/>
+                                    <IconCheck class="bg-green-200 rounded-md mr-1"/>
                                 {:else if payer.status.paid.records === 0}
-                                    <IconX class="bg-red-500 rounded-md mr-1"/>
+                                    <IconX class="bg-red-300 rounded-md mr-1"/>
                                 {:else}
-                                    <IconQuestionMark class="bg-orange-500 rounded-md mr-1"/>
-
+                                    <IconQuestionMark class="bg-orange-200 rounded-md mr-1"/>
                                 {/if}
                                 {new Intl.NumberFormat('cs-CZ', {
                                     style: 'currency',

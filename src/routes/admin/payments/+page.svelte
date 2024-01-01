@@ -134,7 +134,6 @@
                                     <IconX class="bg-red-300 rounded-md mr-1"/>
                                 {:else}
                                     <IconQuestionMark class="bg-orange-200 rounded-md mr-1"/>
-
                                 {/if}
                                 {new Intl.NumberFormat('cs-CZ', {
                                     style: 'currency',
