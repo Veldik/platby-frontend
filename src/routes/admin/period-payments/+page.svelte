@@ -24,14 +24,20 @@
     import {onMount} from "svelte";
 
     import {
+        IconFileInvoice,
         IconTrash,
     } from "@tabler/icons-svelte";
 
     let openNewPeriodPaymentModal = false;
     let openDeletePeriodPaymentModal = false;
+    let openDetailsPeriodPaymentModal = false;
 
 
     let dataPeriodPaymentModal = {};
+    let data = {
+        title: '',
+    };
+
 
     let loadingPayments = true;
     let loadingPayers = true;
@@ -53,6 +59,12 @@
         loadingPayments = false;
     }
 
+    async function fetchPeriodPaymentData(id) {
+        const response = await axios.get(`admin/period-payments/${id}`, {withCredentials: true})
+        data = response.data.data;
+        openDetailsPeriodPaymentModal = true;
+    }
+
     async function fetchPayers() {
         const response = await axios.get('admin/payers', {withCredentials: true})
 
@@ -62,6 +74,7 @@
 
     import DeletePeriodPaymentModal from "$lib/components/modals/DeletePeriodPaymentModal.svelte";
     import NewPeriodPayementModal from "$lib/components/modals/NewPeriodPayementModal.svelte";
+    import DetailsPeriodPaymentModal from "$lib/components/modals/DetailsPeriodPaymentModal.svelte";
 
 </script>
 <Title title="Správa plateb"/>
@@ -142,6 +155,9 @@
 
                         <TableBodyCell>
                             <ButtonGroup>
+                                <Button color="yellow" on:click={() => {data = fetchPeriodPaymentData(periodPayment.id)}}>
+                                    <IconFileInvoice/>
+                                </Button>
                                 <Button color="red" on:click={() => {
                                     dataPeriodPaymentModal = periodPayment;
                                     openDeletePeriodPaymentModal = true;
@@ -158,6 +174,6 @@
 </div>
 
 <NewPeriodPayementModal bind:open={openNewPeriodPaymentModal} refresh={fetchData}/>
-
+<DetailsPeriodPaymentModal bind:open={openDetailsPeriodPaymentModal} data={data}/>
 <DeletePeriodPaymentModal bind:open={openDeletePeriodPaymentModal} data={dataPeriodPaymentModal} refresh={fetchData}
                     bind:loading={loadingPayers}/>

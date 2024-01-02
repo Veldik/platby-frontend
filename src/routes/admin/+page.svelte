@@ -42,7 +42,6 @@
                     "description": "Celkový počet uživatelů",
                     "value": data.users.total,
                     "tooltip": `${data.users.admins} adminů a ${data.users.users} platičů`
-
                 },
                 {
                     "title": "Kredity",
