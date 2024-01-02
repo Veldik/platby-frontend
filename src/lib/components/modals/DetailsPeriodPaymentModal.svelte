@@ -29,7 +29,7 @@
                             year: 'numeric',
                             month: 'numeric',
                             day: 'numeric'
-                        }).format(new Date(data.lastRun))}
+                        }).format(new Date(data.lastRun * 1000))}
                     {/if}
                 </td>
             </tr>
