@@ -52,9 +52,9 @@
 
 <div class="min-h-screen">
     <nav class="bg-white border-b-2">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
-                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                <div class="absolute inset-y-0 left-0 flex items-center md:hidden">
                     <!-- Mobile menu button-->
                     <button on:click="{() => showMobileMenu = !showMobileMenu}" type="button"
                             class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white duration-200"
@@ -76,12 +76,12 @@
                         {/if}
                     </button>
                 </div>
-                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
                     <div class="flex flex-shrink-0 items-center">
                         <img class="block h-8 w-auto"
                              src="/images/logo/logo-white.png" alt="Logo">
                     </div>
-                    <div class="hidden sm:ml-6 sm:block">
+                    <div class="hidden md:ml-6 md:block">
                         <div class="flex space-x-4">
 
                             {#each navigation as {title, path}}
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
 
                     <!-- Profile dropdown -->
                     <div class="relative ml-3">
@@ -107,7 +107,7 @@
         </div>
 
         {#if showMobileMenu}
-            <div class="sm:hidden" id="mobile-menu">
+            <div class="md:hidden" id="mobile-menu">
                 <div class="space-y-1 px-2 pt-2 pb-3">
                     {#each navigation as {title, path}}
                         <a href="{path}"
