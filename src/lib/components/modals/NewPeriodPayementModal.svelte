@@ -49,7 +49,7 @@
             {/each}
         </div>
 
-        <Button color="yellow" disabled={selectedPayers.length === 0 || !title || disabledSubmit} type="submit">
+        <Button color="yellow" disabled={selectedPayers.length === 0 || !title || disabledSubmit || !cronExpression} type="submit">
             <IconCash class="mr-1"/>
             Vytvořit platbu
         </Button>
