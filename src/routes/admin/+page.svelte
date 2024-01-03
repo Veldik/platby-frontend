@@ -18,7 +18,8 @@
                 {
                     "title": "Platby",
                     "description": "Celkový počet plateb",
-                    "value": data.payments
+                    "value": data.payments,
+                    "tooltip": `${data.total.records} platebních záznamů`
                 },
                 {
                     "title": "Platiči",
@@ -28,13 +29,21 @@
                 {
                     "title": "Zaplaceno",
                     "description": "Celkem bylo zaplaceno",
-                    "value": `${data.paid.amount} Kč`,
+                    "value": `${new Intl.NumberFormat('cs-CZ', {
+                        style: 'currency',
+                        currency: 'CZK',
+                        minimumFractionDigits: 0,
+                    }).format(data.paid.amount)}`,
                     "tooltip": `${data.paid.records} plateb`
                 },
                 {
                     "title": "Nezaplaceno",
                     "description": "Celkem nebylo zaplaceno",
-                    "value": `${data.unpaid.amount} Kč`,
+                    "value": `${new Intl.NumberFormat('cs-CZ', {
+                        style: 'currency',
+                        currency: 'CZK',
+                        minimumFractionDigits: 0,
+                    }).format(data.unpaid.amount)}`,
                     "tooltip": `${data.unpaid.records} plateb`
                 },
                 {
