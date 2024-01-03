@@ -84,6 +84,15 @@
         }
     })
 
+    function refreshSelectmenuPayers() {
+        selectmenuPayers = [];
+        payers.forEach(payer => {
+            if (!selectedPayers.includes(payer.id)) {
+                selectmenuPayers.push({value: payer.id, name: `${payer.firstName} ${payer.lastName}`})
+            }
+        })
+    }
+
     const postPayment = async (e) => {
 
         const data = new FormData(e.target)
@@ -111,7 +120,6 @@
             "cronExpression": cronExpression,
             "periodPayers": postPayers
         }))
-        payers = [];
         selectedPayers = [];
         selectmenuPayers = [];
         selected = [];
@@ -122,6 +130,7 @@
         open = false;
         loading = false;
         disabledSubmit = false;
+        refreshSelectmenuPayers();
         await refresh();
     };
 

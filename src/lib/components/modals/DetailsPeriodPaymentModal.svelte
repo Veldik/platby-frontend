@@ -59,6 +59,11 @@
         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Přehled jednotlivých pravidelných
             platičů</h5>
     </div>
+    {#if data.periodPayers.length === 0}
+        <div class="flex justify-between items-center mb-4">
+            <p class="text-red-500">Tato pravidelná platba nemá žádné pravidelné platiče.</p>
+        </div>
+    {:else}
     <Listgroup items={data.periodPayers} let:item class="border-0 dark:!bg-transparent">
         <div class="flex items-center space-x-4">
             <div class="flex-1 min-w-0">
@@ -76,6 +81,7 @@
             </div>
         </div>
     </Listgroup>
+    {/if}
     <div class="flex justify-between items-center mb-4">
         <Button color="green" on:click={() => {addPeriodPayer()}}>
             <IconUserPlus/> &nbsp; Přidat pravidelného platiče

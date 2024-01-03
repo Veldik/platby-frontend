@@ -28,16 +28,17 @@
     export let open, refresh, loading;
     let data = {}
     const editPayer = async (e) => {
-        const data = new FormData(e.target)
+        const formData = new FormData(e.target)
         let json = {};
 
-        for (let [key, value] of data.entries()) {
+        for (let [key, value] of formData.entries()) {
             json[key] = value;
         }
 
         loading = true
         await axios.post(`admin/payers`, JSON.stringify(json))
         await refresh();
+        data = {};
         open = false;
         loading = false;
 
