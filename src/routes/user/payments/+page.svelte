@@ -16,6 +16,7 @@
     import {
         IconX,
     } from "@tabler/icons-svelte";
+    import PayPaymentModal from "$lib/components/modals/PayPaymentModal.svelte";
 
     onMount(async () => {
         await fetchData();
@@ -25,7 +26,12 @@
     let paymentRecords = [];
 
     let loadingQrCode = true;
-    let qrcode = '';
+    let openPayPaymentModal = false;
+    let paydata = {
+        payment: {
+            title: ''
+        }
+    };
 
     async function fetchData() {
         const response = await axios.get('payer/payments', {withCredentials: true})
@@ -34,12 +40,19 @@
         loadingPayers = false;
     }
 
-    async function getQrCode(id) {
-        loadingQrCode = true
-        qrcode = '';
-        const response = await axios.get('payer/payment-record/' + id + '/qrcode', {}, {withCredentials: true})
-        qrcode = response.data.data;
-        loadingQrCode = false;
+    async function openPayModal(id) {
+        openPayPaymentModal = false;
+        // find by id
+        paymentRecords.filter((paymentRecord) => {
+            if (paymentRecord.id === id) {
+                paydata = paymentRecord;
+            }
+        })
+        console.log(paydata)
+        const responseqrcode = await axios.get('payer/payment-record/' + id + '/qrcode', {}, {withCredentials: true})
+
+        paydata.qrcode = responseqrcode.data.data;
+        openPayPaymentModal = true;
     }
 </script>
 <Title title="Správa plateb"/>
@@ -98,23 +111,11 @@
 
                             {:else}
                                 <button on:click={
-                                    getQrCode(paymentRecord.id)
+                                    openPayModal(paymentRecord.id)
                                 }
 
                                         id="pay" class="bg-amber-200 hover:bg-amber-300 text-black font-medium rounded-md px-3 py-2 text-sm duration-200">
                                     Zaplatit</button>
-                                <Popover class="w-64 text-sm font-light " title="Zaplatit" triggeredBy="#pay" trigger="click">
-                                    {#if loadingQrCode}
-                                        <div class="text-center mt-5">
-                                            <Spinner color="yellow"/>
-                                        </div>
-                                    {:else}
-                                        <div class="flex flex-col items-center">
-                                            <img src={qrcode} alt="QR Code"/>
-                                            <p class="text-center">Zaplaťte prosím pomocí QR kódu</p>
-                                        </div>
-                                    {/if}
-                                </Popover>
 
                             {/if}
                         </TableBodyCell>
@@ -124,3 +125,5 @@
         </Table>
     {/if}
 </div>
+
+<PayPaymentModal bind:open={openPayPaymentModal} bind:loading={loadingQrCode} paydata={paydata} on:close={() => paydata = ''}/>
