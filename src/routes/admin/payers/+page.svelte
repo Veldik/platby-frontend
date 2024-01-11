@@ -14,8 +14,17 @@
 
     import {onMount} from "svelte";
 
-    import {IconTrash, IconEdit, IconFileInvoice, IconCheck, IconX, IconQuestionMark} from "@tabler/icons-svelte";
+    import {
+        IconTrash,
+        IconEdit,
+        IconFileInvoice,
+        IconCheck,
+        IconX,
+        IconQuestionMark,
+        IconCash
+    } from "@tabler/icons-svelte";
 
+    let openDetailsPayerCreditsModal = false;
     let openEditPayerModal = false;
     let openNewPayerModal = false;
     let openDeletePayerModal = {opened: false, data: {}};
@@ -40,10 +49,20 @@
         loadingPayers = false;
     }
 
+    let dataCredits = {};
+
+    async function fetchCredits(id) {
+        const response = await axios.get('admin/payers/' + id + '/credits', {withCredentials: true})
+
+        dataCredits = response.data.data;
+        openDetailsPayerCreditsModal = true;
+    }
+
 
     import EditPayerModal from '$lib/components/modals/EditPayerModal.svelte'
     import DeletePayerModal from "$lib/components/modals/DeletePayerModal.svelte";
     import NewPayerModal from "$lib/components/modals/NewPayerModal.svelte";
+    import DetailsPayerCreditsModal from "$lib/components/modals/DetailsPayerCreditsModal.svelte";
 </script>
 <Title title="Správa platičů"/>
 
@@ -109,12 +128,24 @@
                         </TableBodyCell>
                         <TableBodyCell>
                             <ButtonGroup>
+                                <Button color="green" on:click={() => {fetchCredits(payer.id)}}>
+                                    <IconCash/>
+                                </Button>
+                                <Tooltip>
+                                    Zobrazit kredity platiče
+                                </Tooltip>
                                 <Button color="yellow" on:click={() => {dataPayerModal = payer; openEditPayerModal = true}}>
                                     <IconEdit/>
                                 </Button>
+                                <Tooltip>
+                                    Upravit platiče
+                                </Tooltip>
                                 <Button color="red" on:click={() => openDeletePayerModal = {opened: true, data: payer}}>
                                     <IconTrash/>
                                 </Button>
+                                <Tooltip>
+                                    Smazat platiče
+                                </Tooltip>
                             </ButtonGroup>
                         </TableBodyCell>
                     </TableBodyRow>
@@ -124,6 +155,7 @@
     {/if}
 </div>
 
+<DetailsPayerCreditsModal bind:open={openDetailsPayerCreditsModal} bind:data={dataCredits} refresh={fetchData}/>
 <NewPayerModal bind:open={openNewPayerModal} refresh={fetchData} bind:loading={loadingPayers}/>
 <EditPayerModal bind:open={openEditPayerModal} bind:data={dataPayerModal} refresh={fetchData}
                 bind:loading={loadingPayers}/>
