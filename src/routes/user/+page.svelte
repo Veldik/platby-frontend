@@ -18,7 +18,7 @@
             stats = [
                 {
                     "title": "Zaplaceno",
-                    "description": "Celkem si zaplatil",
+                    "description": "Celkem jsi zaplatil",
                     "value": `${data.paid.amount} Kč`,
                     "tooltip": `${data.paid.records} plateb`
                 },
