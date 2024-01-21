@@ -28,6 +28,7 @@
     let loadingQrCode = true;
     let openPayPaymentModal = false;
     let paydata = {
+        credits: 0,
         payment: {
             title: ''
         }
@@ -48,10 +49,13 @@
                 paydata = paymentRecord;
             }
         })
-        console.log(paydata)
-        const responseqrcode = await axios.get('payer/payment-record/' + id + '/qrcode', {}, {withCredentials: true})
 
+        const responseqrcode = await axios.get('payer/payment-record/' + id + '/qrcode', {}, {withCredentials: true})
+        const repsonsepayer = await axios.get('payer', {}, {withCredentials: true})
+
+        paydata.credits = repsonsepayer.data.data.creditSum;
         paydata.qrcode = responseqrcode.data.data;
+
         openPayPaymentModal = true;
     }
 </script>

@@ -19,7 +19,7 @@
                             style: 'currency',
                             currency: 'CZK',
                             minimumFractionDigits: 2
-                        }).format(0)
+                        }).format(paydata.credits)
                     }</p>
 
                     <p class="text-gray-600 text-sm">
