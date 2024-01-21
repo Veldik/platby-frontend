@@ -130,4 +130,4 @@
     {/if}
 </div>
 
-<PayPaymentModal bind:open={openPayPaymentModal} bind:loading={loadingQrCode} paydata={paydata} on:close={() => paydata = ''}/>
+<PayPaymentModal bind:open={openPayPaymentModal} bind:loading={loadingQrCode} refresh={fetchData} paydata={paydata} on:close={() => paydata = ''}/>

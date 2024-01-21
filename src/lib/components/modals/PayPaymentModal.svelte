@@ -23,14 +23,20 @@
                     }</p>
 
                     <p class="text-gray-600 text-sm">
-                        <Button color="yellow" disabled={true}>
-                            <IconCash class="mr-1"/>
-                            Zaplatit
-                        </Button>
-                        <Tooltip>
-                            Tato funkce není dostupná
-                        </Tooltip>
-
+                        {#if paydata.credits >= paydata.amount}
+                            <Button color="yellow" on:click={() => pay()}>
+                                <IconCash class="mr-1"/>
+                                Zaplatit
+                            </Button>
+                        {:else}
+                            <Button color="yellow" disabled={true}>
+                                <IconCash class="mr-1"/>
+                                Zaplatit
+                            </Button>
+                            <Tooltip>
+                                Nemáš dostatek kreditů
+                            </Tooltip>
+                        {/if}
                     </p>
                 </div>
             </div>
@@ -41,8 +47,15 @@
 <script>
     import {Button, Modal, Popover, Tooltip} from 'flowbite-svelte'
     import {IconCash, IconEdit} from "@tabler/icons-svelte";
+    import axios from "axios";
 
 
     export let open, paydata, refresh, loading;
+
+    const pay = async () => {
+        await axios.post(`payer/payment-record/${paydata.id}/pay`);
+        await refresh();
+        open = false;
+    };
 
 </script>
