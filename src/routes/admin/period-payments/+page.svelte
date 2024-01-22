@@ -1,5 +1,5 @@
 <script>
-    import Title from '$lib/components/title.svelte';
+    import Title from "$lib/components/title.svelte"
     import {
         Table,
         TableBody,
@@ -7,32 +7,37 @@
         TableBodyRow,
         TableHead,
         TableHeadCell,
-        Button,
-        Spinner,
-        Tooltip,
-        ButtonGroup,
+        Button, Spinner, Tooltip, ButtonGroup
     } from 'flowbite-svelte';
-    import axios from 'axios';
-    import dayjs from 'dayjs';
+    import axios from "axios";
+    import dayjs from "dayjs";
     import relativeTime from 'dayjs/plugin/relativeTime';
-    import 'dayjs/locale/cs';
+    import 'dayjs/locale/cs'
+
+
 
     onMount(() => {
         fetchData();
     });
 
-    import { onMount } from 'svelte';
 
-    import { IconFileInvoice, IconTrash } from '@tabler/icons-svelte';
+    import {onMount} from "svelte";
+
+    import {
+        IconFileInvoice,
+        IconTrash,
+    } from "@tabler/icons-svelte";
 
     let openNewPeriodPaymentModal = false;
     let openDeletePeriodPaymentModal = false;
     let openDetailsPeriodPaymentModal = false;
 
+
     let dataPeriodPaymentModal = {};
     let data = {
         title: '',
     };
+
 
     let loadingPayments = true;
     let loadingPayers = true;
@@ -42,12 +47,12 @@
     let periodPayments = [];
     let payers = [];
 
-    dayjs.locale('cs');
+    dayjs.locale('cs')
     dayjs.extend(relativeTime);
 
     async function fetchData(url = 'admin/period-payments') {
         loadingPayments = true;
-        const response = await axios.get(url, { withCredentials: true });
+        const response = await axios.get(url, {withCredentials: true})
 
         periodPayments = response.data.data;
         pagesinfo = response.data.links;
@@ -55,43 +60,33 @@
     }
 
     async function fetchPeriodPaymentData(id) {
-        const response = await axios.get(`admin/period-payments/${id}`, {
-            withCredentials: true,
-        });
+        const response = await axios.get(`admin/period-payments/${id}`, {withCredentials: true})
         data = response.data.data;
         openDetailsPeriodPaymentModal = true;
     }
 
     async function fetchPayers() {
-        const response = await axios.get('admin/payers', {
-            withCredentials: true,
-        });
+        const response = await axios.get('admin/payers', {withCredentials: true})
 
         payers = response.data.data;
         openNewPeriodPaymentModal = true;
     }
 
-    import DeletePeriodPaymentModal from '$lib/components/modals/DeletePeriodPaymentModal.svelte';
-    import NewPeriodPayementModal from '$lib/components/modals/NewPeriodPayementModal.svelte';
-    import DetailsPeriodPaymentModal from '$lib/components/modals/DetailsPeriodPaymentModal.svelte';
-</script>
+    import DeletePeriodPaymentModal from "$lib/components/modals/DeletePeriodPaymentModal.svelte";
+    import NewPeriodPayementModal from "$lib/components/modals/NewPeriodPayementModal.svelte";
+    import DetailsPeriodPaymentModal from "$lib/components/modals/DetailsPeriodPaymentModal.svelte";
 
-<Title title="Správa plateb" />
+</script>
+<Title title="Správa plateb"/>
 
 <div class="p-4">
     {#if loadingPayments}
-        <div class="mt-5 text-center">
-            <Spinner color="yellow" />
+        <div class="text-center mt-5">
+            <Spinner color="yellow"/>
         </div>
     {:else}
         <div class="pb-4 text-center">
-            <Button
-                class="duration-200"
-                color="yellow"
-                on:click={() => {
-                    payers = fetchPayers();
-                }}
-            >
+            <Button class="duration-200" color="yellow" on:click={() => {payers = fetchPayers()}}>
                 Vytvořit pravidelnou platbu
             </Button>
         </div>
@@ -135,11 +130,7 @@
                                             hour: 'numeric',
                                             minute: 'numeric',
                                             second: 'numeric',
-                                        }).format(
-                                            new Date(
-                                                periodPayment.lastRun * 1000
-                                            )
-                                        )}
+                                        }).format(new Date(periodPayment.lastRun * 1000))}
                                     {/if}
                                 </Tooltip>
                             </div>
@@ -157,32 +148,21 @@
                                     hour: 'numeric',
                                     minute: 'numeric',
                                     second: 'numeric',
-                                }).format(
-                                    new Date(periodPayment.nextRun * 1000)
-                                )}
+                                }).format(new Date(periodPayment.nextRun * 1000))}
                             </Tooltip>
+
                         </TableBodyCell>
 
                         <TableBodyCell>
                             <ButtonGroup>
-                                <Button
-                                    color="yellow"
-                                    on:click={() => {
-                                        data = fetchPeriodPaymentData(
-                                            periodPayment.id
-                                        );
-                                    }}
-                                >
-                                    <IconFileInvoice />
+                                <Button color="yellow" on:click={() => {data = fetchPeriodPaymentData(periodPayment.id)}}>
+                                    <IconFileInvoice/>
                                 </Button>
-                                <Button
-                                    color="red"
-                                    on:click={() => {
-                                        dataPeriodPaymentModal = periodPayment;
-                                        openDeletePeriodPaymentModal = true;
-                                    }}
-                                >
-                                    <IconTrash />
+                                <Button color="red" on:click={() => {
+                                    dataPeriodPaymentModal = periodPayment;
+                                    openDeletePeriodPaymentModal = true;
+                                }}>
+                                    <IconTrash/>
                                 </Button>
                             </ButtonGroup>
                         </TableBodyCell>
@@ -193,14 +173,7 @@
     {/if}
 </div>
 
-<NewPeriodPayementModal
-    bind:open={openNewPeriodPaymentModal}
-    refresh={fetchData}
-/>
-<DetailsPeriodPaymentModal bind:open={openDetailsPeriodPaymentModal} {data} />
-<DeletePeriodPaymentModal
-    bind:open={openDeletePeriodPaymentModal}
-    data={dataPeriodPaymentModal}
-    refresh={fetchData}
-    bind:loading={loadingPayers}
-/>
+<NewPeriodPayementModal bind:open={openNewPeriodPaymentModal} refresh={fetchData}/>
+<DetailsPeriodPaymentModal bind:open={openDetailsPeriodPaymentModal} data={data}/>
+<DeletePeriodPaymentModal bind:open={openDeletePeriodPaymentModal} data={dataPeriodPaymentModal} refresh={fetchData}
+                    bind:loading={loadingPayers}/>
