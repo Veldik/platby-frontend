@@ -1,5 +1,5 @@
 <script>
-    import Title from "$lib/components/title.svelte"
+    import Title from '$lib/components/title.svelte';
     import {
         Table,
         TableBody,
@@ -7,20 +7,22 @@
         TableBodyRow,
         TableHead,
         TableHeadCell,
-        Button, Spinner, Tooltip, ButtonGroup, Popover
+        Button,
+        Spinner,
+        Tooltip,
+        ButtonGroup,
+        Popover,
     } from 'flowbite-svelte';
-    import axios from "axios";
+    import axios from 'axios';
 
-    import {onMount} from "svelte";
+    import { onMount } from 'svelte';
 
-    import {
-        IconX,
-    } from "@tabler/icons-svelte";
-    import PayPaymentModal from "$lib/components/modals/PayPaymentModal.svelte";
+    import { IconX } from '@tabler/icons-svelte';
+    import PayPaymentModal from '$lib/components/modals/PayPaymentModal.svelte';
 
     onMount(async () => {
         await fetchData();
-    })
+    });
 
     let loadingPayers = true;
     let paymentRecords = [];
@@ -30,12 +32,14 @@
     let paydata = {
         credits: 0,
         payment: {
-            title: ''
-        }
+            title: '',
+        },
     };
 
     async function fetchData() {
-        const response = await axios.get('payer/payments', {withCredentials: true})
+        const response = await axios.get('payer/payments', {
+            withCredentials: true,
+        });
 
         paymentRecords = response.data.data;
         loadingPayers = false;
@@ -48,10 +52,18 @@
             if (paymentRecord.id === id) {
                 paydata = paymentRecord;
             }
-        })
+        });
 
-        const responseqrcode = await axios.get('payer/payment-record/' + id + '/qrcode', {}, {withCredentials: true})
-        const repsonsepayer = await axios.get('payer', {}, {withCredentials: true})
+        const responseqrcode = await axios.get(
+            'payer/payment-record/' + id + '/qrcode',
+            {},
+            { withCredentials: true }
+        );
+        const repsonsepayer = await axios.get(
+            'payer',
+            {},
+            { withCredentials: true }
+        );
 
         paydata.credits = repsonsepayer.data.data.creditSum;
         paydata.qrcode = responseqrcode.data.data;
@@ -59,13 +71,13 @@
         openPayPaymentModal = true;
     }
 </script>
-<Title title="Správa plateb"/>
 
+<Title title="Správa plateb" />
 
 <div class="p-4">
     {#if loadingPayers}
-        <div class="text-center mt-5">
-            <Spinner color="yellow"/>
+        <div class="mt-5 text-center">
+            <Spinner color="yellow" />
         </div>
     {:else}
         <Table shadow>
@@ -90,17 +102,17 @@
                         <TableBodyCell>
                             {new Intl.NumberFormat('cs-CZ', {
                                 style: 'currency',
-                                currency: 'CZK'
+                                currency: 'CZK',
                             }).format(paymentRecord.amount)}
                         </TableBodyCell>
                         <TableBodyCell>
                             {#if paymentRecord.paidAt}
                                 <span>
-                                {new Intl.DateTimeFormat('cs-CZ', {
-                                    year: 'numeric',
-                                    month: 'numeric',
-                                    day: 'numeric'
-                                }).format(new Date(paymentRecord.paidAt))}
+                                    {new Intl.DateTimeFormat('cs-CZ', {
+                                        year: 'numeric',
+                                        month: 'numeric',
+                                        day: 'numeric',
+                                    }).format(new Date(paymentRecord.paidAt))}
                                 </span>
                                 <Tooltip>
                                     {new Intl.DateTimeFormat('cs-CZ', {
@@ -108,19 +120,17 @@
                                         month: 'numeric',
                                         day: 'numeric',
                                         hour: 'numeric',
-                                        minute: 'numeric'
+                                        minute: 'numeric',
                                     }).format(new Date(paymentRecord.paidAt))}
                                 </Tooltip>
-
-
                             {:else}
-                                <button on:click={
-                                    openPayModal(paymentRecord.id)
-                                }
-
-                                        id="pay" class="bg-amber-200 hover:bg-amber-300 text-black font-medium rounded-md px-3 py-2 text-sm duration-200">
-                                    Zaplatit</button>
-
+                                <button
+                                    on:click={openPayModal(paymentRecord.id)}
+                                    id="pay"
+                                    class="rounded-md bg-amber-200 px-3 py-2 text-sm font-medium text-black duration-200 hover:bg-amber-300"
+                                >
+                                    Zaplatit
+                                </button>
                             {/if}
                         </TableBodyCell>
                     </TableBodyRow>
@@ -130,4 +140,10 @@
     {/if}
 </div>
 
-<PayPaymentModal bind:open={openPayPaymentModal} bind:loading={loadingQrCode} refresh={fetchData} paydata={paydata} on:close={() => paydata = ''}/>
+<PayPaymentModal
+    bind:open={openPayPaymentModal}
+    bind:loading={loadingQrCode}
+    refresh={fetchData}
+    {paydata}
+    on:close={() => (paydata = '')}
+/>
