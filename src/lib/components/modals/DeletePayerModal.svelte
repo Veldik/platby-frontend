@@ -7,6 +7,9 @@
     <div class="text-center">
 
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Jsi si jistý, že chceš odstranit <b>{modaldata.data.firstName} {modaldata.data.lastName}</b> ze seznamu platičů?</h3>
+        <p class="text-sm mb-5">
+            Tato akce smaže všechny platební záznamy, kredity a propojení s pravidelnými platby tohoto platiče.
+        </p>
         <Button on:click={removePayer} color="red" class="mr-2">Ano, odstranit</Button>
         <Button color='alternative'>Zrušit</Button>
     </div>

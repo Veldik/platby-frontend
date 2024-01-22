@@ -15,7 +15,7 @@
                 <div class="text-center">
                     <p class="text-gray-700 font-bold text-sm pb-4">Platba pomocí kreditů</p>
                     <p class="text-gray-500 text-xs pb-4">Máš na účtu {
-                            new Intl.NumberFormat('cs-CZ', {
+                        new Intl.NumberFormat('cs-CZ', {
                             style: 'currency',
                             currency: 'CZK',
                             minimumFractionDigits: 2

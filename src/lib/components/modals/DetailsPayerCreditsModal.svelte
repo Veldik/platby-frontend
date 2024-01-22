@@ -17,17 +17,29 @@
         </div>
     </Listgroup>
     {/if}
+    <Button color="green" on:click={() => {openCreditEditModal()}}>
+        <IconCashBanknote class="-ml-1 mr-2 h-5 w-5" />
+        Přidat pohyb kreditů
+    </Button>
 </Modal>
 
 <script>
     import {Button, Modal, Listgroup} from 'flowbite-svelte'
     import {
+        IconCashBanknote,
         IconTrash, IconUserPlus
     } from "@tabler/icons-svelte";
     import AddPeriodPaymentPayerModal from "$lib/components/modals/AddPeriodPaymentPayerModal.svelte";
+    import axios from "axios";
+    import NewCreditRecordModal from "$lib/components/modals/NewCreditRecordModal.svelte";
 
-    let openAddPeriodPaymentPayerModal = false;
+    let openCreditRecordModal = false;
 
-    export let open, data, refresh;
+    export let open, data, payer, refresh;
 
+    async function openCreditEditModal() {
+        openCreditRecordModal = true;
+    }
 </script>
+
+<NewCreditRecordModal bind:open={openCreditRecordModal} payer={payer} refresh={refresh} />

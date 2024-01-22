@@ -5,6 +5,12 @@
     <div class="flex justify-between items-center mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Přehled jednotlivých plateb</h5>
     </div>
+
+
+    {#if data.paymentRecords.length === 0}
+        <p class="text-gray-700">Tato platba nemá žádné platiče. 😥</p>
+    {:else}
+
     <Listgroup items={data.paymentRecords} let:item class="border-0 dark:!bg-transparent">
         <div class="flex items-center space-x-4">
             <div class="flex-1 min-w-0">
@@ -51,6 +57,7 @@
             </div>
         </div>
     </Listgroup>
+    {/if}
 </Modal>
 
 <script>

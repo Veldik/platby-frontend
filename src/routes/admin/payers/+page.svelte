@@ -52,10 +52,12 @@
     }
 
     let dataCredits = {};
+    let dataPayer = {};
 
     async function fetchCredits(id) {
         const response = await axios.get('admin/payers/' + id + '/credits', {withCredentials: true})
 
+        dataPayer = id;
         dataCredits = response.data.data;
         openDetailsPayerCreditsModal = true;
     }
@@ -161,7 +163,7 @@
     {/if}
 </div>
 
-<DetailsPayerCreditsModal bind:open={openDetailsPayerCreditsModal} bind:data={dataCredits} refresh={fetchData}/>
+<DetailsPayerCreditsModal bind:open={openDetailsPayerCreditsModal} bind:data={dataCredits} bind:payer={dataPayer} refresh={fetchData}/>
 <NewPayerModal bind:open={openNewPayerModal} refresh={fetchData} bind:loading={loadingPayers}/>
 <EditPayerModal bind:open={openEditPayerModal} bind:data={dataPayerModal} refresh={fetchData}
                 bind:loading={loadingPayers}/>
