@@ -1,6 +1,8 @@
 <script>
     import Title from "$lib/components/title.svelte"
     import Icon from "$lib/components/icon.svelte"
+    import { copy } from 'svelte-copy';
+
     import {
         Table,
         TableBody,
@@ -63,6 +65,7 @@
     import DeletePayerModal from "$lib/components/modals/DeletePayerModal.svelte";
     import NewPayerModal from "$lib/components/modals/NewPayerModal.svelte";
     import DetailsPayerCreditsModal from "$lib/components/modals/DetailsPayerCreditsModal.svelte";
+    import toast from "svelte-french-toast";
 </script>
 <Title title="Správa platičů"/>
 
@@ -88,7 +91,10 @@
 
                 {#each payers as payer}
                     <TableBodyRow>
-                        <TableBodyCell class="font-bold"><a href="mailto:{payer.email}" target="_blank">{payer.firstName} {payer.lastName}</a>
+                        <TableBodyCell class="font-bold">
+                            <span use:copy={payer.email} on:svelte-copy={(event) => toast.success(`E-mailová adresa byla zkopírována.`)}>
+                                {payer.firstName} {payer.lastName}
+                            </span>
                             <Tooltip>
                                 {payer.email}
                             </Tooltip>
