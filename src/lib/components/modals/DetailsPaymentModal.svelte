@@ -32,18 +32,6 @@
         openQRCodeModal = true;
     }
 
-    const reSendMail = async (id) => {
-        const response = await axios.post(`admin/payment-record/${id}/resend`, {
-            withCredentials: true,
-        });
-        if (response.status === 200) {
-            toast.success('Email byl úspěšně odeslán');
-        } else {
-            toast.error('Email se nepodařilo odeslat');
-        }
-        await refresh();
-        open = false;
-    };
 
     const pay = async (id) => {
         const response = await axios.post(`admin/payment-record/${id}/pay`, {
@@ -121,15 +109,6 @@
                                 color="light"
                             >
                                 <IconQrcode class="text-gray-300" />
-                            </Button>
-                            <Button
-                                class="border-0 !p-2"
-                                on:click={() => {
-                                    reSendMail(item.id);
-                                }}
-                                color="light"
-                            >
-                                <IconMailForward class="text-blue-500" />
                             </Button>
                             <Button
                                 class="mr-1 border-0 !p-2"
