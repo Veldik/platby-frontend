@@ -1,6 +1,6 @@
 <script>
-    import Title from "$lib/components/title.svelte"
-    import Icon from "$lib/components/icon.svelte"
+    import Title from '$lib/components/title.svelte';
+    import Icon from '$lib/components/icon.svelte';
     import { copy } from 'svelte-copy';
 
     import {
@@ -10,11 +10,14 @@
         TableBodyRow,
         TableHead,
         TableHeadCell,
-        Button, Spinner, Tooltip, ButtonGroup
+        Button,
+        Spinner,
+        Tooltip,
+        ButtonGroup,
     } from 'flowbite-svelte';
-    import axios from "axios";
+    import axios from 'axios';
 
-    import {onMount} from "svelte";
+    import { onMount } from 'svelte';
 
     import {
         IconTrash,
@@ -23,29 +26,31 @@
         IconCheck,
         IconX,
         IconQuestionMark,
-        IconCash
-    } from "@tabler/icons-svelte";
+        IconCash,
+    } from '@tabler/icons-svelte';
 
     let openDetailsPayerCreditsModal = false;
     let openEditPayerModal = false;
     let openNewPayerModal = false;
-    let openDeletePayerModal = {opened: false, data: {}};
+    let openDeletePayerModal = { opened: false, data: {} };
 
     onMount(async () => {
         await fetchData();
-    })
+    });
 
     let loadingPayers = true;
     let dataPayerModal = {
         id: 0,
-        firstName: "",
-        lastName: "",
-        email: ""
+        firstName: '',
+        lastName: '',
+        email: '',
     };
     let payers = [];
 
     async function fetchData() {
-        const response = await axios.get('admin/payers', {withCredentials: true})
+        const response = await axios.get('admin/payers', {
+            withCredentials: true,
+        });
 
         payers = response.data.data;
         loadingPayers = false;
@@ -55,30 +60,38 @@
     let dataPayer = {};
 
     async function fetchCredits(id) {
-        const response = await axios.get('admin/payers/' + id + '/credits', {withCredentials: true})
+        const response = await axios.get('admin/payers/' + id + '/credits', {
+            withCredentials: true,
+        });
 
         dataPayer = id;
         dataCredits = response.data.data;
         openDetailsPayerCreditsModal = true;
     }
 
-
-    import EditPayerModal from '$lib/components/modals/EditPayerModal.svelte'
-    import DeletePayerModal from "$lib/components/modals/DeletePayerModal.svelte";
-    import NewPayerModal from "$lib/components/modals/NewPayerModal.svelte";
-    import DetailsPayerCreditsModal from "$lib/components/modals/DetailsPayerCreditsModal.svelte";
-    import toast from "svelte-french-toast";
+    import EditPayerModal from '$lib/components/modals/EditPayerModal.svelte';
+    import DeletePayerModal from '$lib/components/modals/DeletePayerModal.svelte';
+    import NewPayerModal from '$lib/components/modals/NewPayerModal.svelte';
+    import DetailsPayerCreditsModal from '$lib/components/modals/DetailsPayerCreditsModal.svelte';
+    import toast from 'svelte-french-toast';
 </script>
-<Title title="Správa platičů"/>
+
+<Title title="Správa platičů" />
 
 <div class="p-4">
     {#if loadingPayers}
-        <div class="text-center mt-5">
-            <Spinner color="yellow"/>
+        <div class="mt-5 text-center">
+            <Spinner color="yellow" />
         </div>
     {:else}
         <div class="pb-4 text-center">
-            <Button class="duration-200" color="yellow" on:click={() => {openNewPayerModal = true}}>
+            <Button
+                class="duration-200"
+                color="yellow"
+                on:click={() => {
+                    openNewPayerModal = true;
+                }}
+            >
                 Přidat platiče
             </Button>
         </div>
@@ -90,12 +103,18 @@
                 <TableHeadCell>Akce</TableHeadCell>
             </TableHead>
             <TableBody class="divide-y">
-
                 {#each payers as payer}
                     <TableBodyRow>
                         <TableBodyCell class="font-bold">
-                            <span use:copy={payer.email} on:svelte-copy={(event) => toast.success(`E-mailová adresa byla zkopírována.`)}>
-                                {payer.firstName} {payer.lastName}
+                            <span
+                                use:copy={payer.email}
+                                on:svelte-copy={(event) =>
+                                    toast.success(
+                                        `E-mailová adresa byla zkopírována.`
+                                    )}
+                            >
+                                {payer.firstName}
+                                {payer.lastName}
                             </span>
                             <Tooltip>
                                 {payer.email}
@@ -104,11 +123,15 @@
                         <TableBodyCell>
                             <div class="flex space-x-4">
                                 {#if payer.status.paid.records === payer.status.total.records}
-                                    <IconCheck class="bg-green-200 rounded-md mr-1"/>
+                                    <IconCheck
+                                        class="mr-1 rounded-md bg-green-200"
+                                    />
                                 {:else if payer.status.paid.records === 0}
-                                    <IconX class="bg-red-300 rounded-md mr-1"/>
+                                    <IconX class="mr-1 rounded-md bg-red-300" />
                                 {:else}
-                                    <IconQuestionMark class="bg-orange-200 rounded-md mr-1"/>
+                                    <IconQuestionMark
+                                        class="mr-1 rounded-md bg-orange-200"
+                                    />
                                 {/if}
                                 {new Intl.NumberFormat('cs-CZ', {
                                     style: 'currency',
@@ -122,9 +145,18 @@
                                     minimumFractionDigits: 0,
                                 }).format(payer.status.total.amount)}
                             </div>
-                            <Tooltip placement="left" shadow="true"
-                                     color={payer.status.paid.records === payer.status.total.records ? "green" : (payer.status.paid.records === 0 ? "red" : "yellow")}>
-                                {payer.status.paid.records} z {payer.status.total.records}
+                            <Tooltip
+                                placement="left"
+                                shadow="true"
+                                color={payer.status.paid.records ===
+                                payer.status.total.records
+                                    ? 'green'
+                                    : payer.status.paid.records === 0
+                                      ? 'red'
+                                      : 'yellow'}
+                            >
+                                {payer.status.paid.records} z {payer.status
+                                    .total.records}
                             </Tooltip>
                         </TableBodyCell>
                         <TableBodyCell>
@@ -136,24 +168,36 @@
                         </TableBodyCell>
                         <TableBodyCell>
                             <ButtonGroup>
-                                <Button color="green" on:click={() => {fetchCredits(payer.id)}}>
-                                    <IconCash/>
+                                <Button
+                                    color="green"
+                                    on:click={() => {
+                                        fetchCredits(payer.id);
+                                    }}
+                                >
+                                    <IconCash />
                                 </Button>
-                                <Tooltip>
-                                    Zobrazit kredity platiče
-                                </Tooltip>
-                                <Button color="yellow" on:click={() => {dataPayerModal = payer; openEditPayerModal = true}}>
-                                    <IconEdit/>
+                                <Tooltip>Zobrazit kredity platiče</Tooltip>
+                                <Button
+                                    color="yellow"
+                                    on:click={() => {
+                                        dataPayerModal = payer;
+                                        openEditPayerModal = true;
+                                    }}
+                                >
+                                    <IconEdit />
                                 </Button>
-                                <Tooltip>
-                                    Upravit platiče
-                                </Tooltip>
-                                <Button color="red" on:click={() => openDeletePayerModal = {opened: true, data: payer}}>
-                                    <IconTrash/>
+                                <Tooltip>Upravit platiče</Tooltip>
+                                <Button
+                                    color="red"
+                                    on:click={() =>
+                                        (openDeletePayerModal = {
+                                            opened: true,
+                                            data: payer,
+                                        })}
+                                >
+                                    <IconTrash />
                                 </Button>
-                                <Tooltip>
-                                    Smazat platiče
-                                </Tooltip>
+                                <Tooltip>Smazat platiče</Tooltip>
                             </ButtonGroup>
                         </TableBodyCell>
                     </TableBodyRow>
@@ -163,8 +207,25 @@
     {/if}
 </div>
 
-<DetailsPayerCreditsModal bind:open={openDetailsPayerCreditsModal} bind:data={dataCredits} bind:payer={dataPayer} refresh={fetchData}/>
-<NewPayerModal bind:open={openNewPayerModal} refresh={fetchData} bind:loading={loadingPayers}/>
-<EditPayerModal bind:open={openEditPayerModal} bind:data={dataPayerModal} refresh={fetchData}
-                bind:loading={loadingPayers}/>
-<DeletePayerModal bind:modaldata={openDeletePayerModal} refresh={fetchData} bind:loading={loadingPayers}/>
+<DetailsPayerCreditsModal
+    bind:open={openDetailsPayerCreditsModal}
+    bind:data={dataCredits}
+    bind:payer={dataPayer}
+    refresh={fetchData}
+/>
+<NewPayerModal
+    bind:open={openNewPayerModal}
+    refresh={fetchData}
+    bind:loading={loadingPayers}
+/>
+<EditPayerModal
+    bind:open={openEditPayerModal}
+    bind:data={dataPayerModal}
+    refresh={fetchData}
+    bind:loading={loadingPayers}
+/>
+<DeletePayerModal
+    bind:modaldata={openDeletePayerModal}
+    refresh={fetchData}
+    bind:loading={loadingPayers}
+/>
