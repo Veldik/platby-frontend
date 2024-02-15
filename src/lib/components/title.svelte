@@ -3,5 +3,5 @@
 </script>
 
 <svelte:head>
-    <title>{title} | veldapay</title>
+    <title>{title} | platby</title>
 </svelte:head>

@@ -157,7 +157,7 @@
 
     <footer class="sticky top-[100vh] border-t text-center lg:text-left">
         <div class="p-4 text-center">
-            veldapay administrace <br />
+            platby administrace <br />
             Vytvořil
             <a
                 class="font-bold hover:underline"
