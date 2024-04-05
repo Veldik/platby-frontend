@@ -101,8 +101,7 @@
 <Modal title="Vytvoření pravidelné platby" bind:open size="xs" class="w-full">
     <form
         class="flex flex-col space-y-6"
-        on:submit|preventDefault={postPayment}
-    >
+        on:submit|preventDefault={postPayment}>
         <Label class="space-y-2">
             <span>Název</span>
             <ButtonGroup class="w-full">
@@ -110,8 +109,7 @@
                     type="text"
                     placeholder="Kulečník"
                     bind:value={title}
-                    required
-                />
+                    required />
             </ButtonGroup>
         </Label>
         <Label class="space-y-2">
@@ -120,8 +118,7 @@
                 <Input
                     type="text"
                     placeholder="Hospůdka U Tří koní"
-                    bind:value={description}
-                />
+                    bind:value={description} />
             </ButtonGroup>
         </Label>
         <Label class="space-y-2">
@@ -130,24 +127,18 @@
                 <Input
                     type="text"
                     placeholder="0 10 * * *"
-                    bind:value={cronExpression}
-                />
+                    bind:value={cronExpression} />
             </ButtonGroup>
         </Label>
 
         <Label class="space-y-2">
             <span>Celková částka</span>
             <ButtonGroup class="w-full">
-                <NumberInput
-                    placeholder="1350"
-                    bind:value={totalAmount}
-                    required
-                />
+                <NumberInput placeholder="1350" bind:value={totalAmount} />
                 <InputAddon>Kč</InputAddon>
             </ButtonGroup>
             <Checkbox color="yellow" bind:checked={amIPayer}
-                >Platím taky</Checkbox
-            >
+                >Platím taky</Checkbox>
         </Label>
 
         <Label class="space-y-2">
@@ -162,8 +153,7 @@
                     );
                     selectedPayers = [...selectedPayers, selected];
                     selected = '';
-                }}
-            ></Select>
+                }}></Select>
         </Label>
 
         <div class="">
@@ -185,13 +175,11 @@
                                 },
                             ];
                         }}
-                        color="red"
-                    >
+                        color="red">
                         <IconX />
                     </Button>
                     <InputAddon class="w-full"
-                        >{payer.firstName} {payer.lastName}</InputAddon
-                    >
+                        >{payer.firstName} {payer.lastName}</InputAddon>
                     <NumberInput
                         class="w-16 border-0"
                         value={Math.ceil(
@@ -199,8 +187,7 @@
                                 (selectedPayers.length + (amIPayer ? 1 : 0))
                         )}
                         id={payer.id}
-                        required
-                    />
+                        required />
                     <InputAddon>Kč</InputAddon>
                 </ButtonGroup>
             {/each}
@@ -212,8 +199,7 @@
                 !title ||
                 disabledSubmit ||
                 !cronExpression}
-            type="submit"
-        >
+            type="submit">
             <IconCash class="mr-1" />
             Vytvořit platbu
         </Button>

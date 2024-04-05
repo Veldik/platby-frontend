@@ -104,8 +104,7 @@
     </div>
     <div class="mb-4 flex items-center justify-between">
         <h5
-            class="text-xl font-bold leading-none text-gray-900 dark:text-white"
-        >
+            class="text-xl font-bold leading-none text-gray-900 dark:text-white">
             Přehled jednotlivých pravidelných platičů
         </h5>
     </div>
@@ -119,30 +118,30 @@
         <Listgroup
             items={data.periodPayers}
             let:item
-            class="border-0 dark:!bg-transparent"
-        >
+            class="border-0 dark:!bg-transparent">
             <div class="flex items-center space-x-4">
                 <div class="min-w-0 flex-1">
                     <p
-                        class="truncate text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                        class="truncate text-sm font-medium text-gray-900 dark:text-white">
                         {item.payer.firstName}
                         {item.payer.lastName}
                     </p>
                 </div>
                 <div
-                    class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
+                    class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                     <Button
                         class="mr-1 border-0 !p-2"
                         on:click={() => {
                             deletePeriodPayer(item.id);
                         }}
-                        color="light"
-                    >
+                        color="light">
                         <IconTrash class="text-red-400" />
                     </Button>
-                    {item.amount} Kč
+                    {new Intl.NumberFormat('cs-CZ', {
+                        style: 'currency',
+                        currency: 'CZK',
+                        minimumFractionDigits: 0,
+                    }).format(item.amount)}
                 </div>
             </div>
         </Listgroup>
@@ -152,8 +151,7 @@
             color="green"
             on:click={() => {
                 addPeriodPayer();
-            }}
-        >
+            }}>
             <IconUserPlus /> &nbsp; Přidat pravidelného platiče
         </Button>
     </div>
@@ -162,5 +160,4 @@
 <AddPeriodPaymentPayerModal
     bind:open={openAddPeriodPaymentPayerModal}
     {payers}
-    periodPaymentId={data.id}
-/>
+    periodPaymentId={data.id} />

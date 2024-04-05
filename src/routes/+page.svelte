@@ -47,8 +47,11 @@
                     } else if (response.data.user.role === 'user') {
                         goto('/user');
                     }
+                } else if (response.request.status === 401) {
+                    errorMessage =
+                        'Nesprávné přihlašovací údaje. Zkuste to znovu nebo heslo resetujte kliknutím na tlačítko pro obnovu hesla.';
                 } else {
-                    errorMessage = 'Přihlášení se nezdařilo.';
+                    errorMessage = 'Něco se pokazilo. Zkus to za chvíli znovu.';
                 }
             })
             .catch((error) => {
@@ -60,15 +63,13 @@
 <Title title="Domů" />
 
 <main
-    class="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-32"
->
+    class="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-32">
     <div class="flex flex-col items-center justify-center">
         <div class="container">
             <img
                 class="mx-auto h-24 w-auto"
                 src="/images/logo/logo-white.png"
-                alt="Veldovo platby"
-            />
+                alt="Veldovo platby" />
         </div>
     </div>
     <div class="w-full sm:w-96">
@@ -83,8 +84,7 @@
                     class="input rounded focus:border-green-400 focus:ring-green-400"
                     placeholder="E-mail"
                     required
-                    autocomplete="username"
-                />
+                    autocomplete="username" />
             </div>
             <div class="flex flex-col">
                 <label for="password" class="text-dark font-bold">Heslo</label>
@@ -96,8 +96,7 @@
                     class="input rounded focus:border-green-400 focus:ring-green-400"
                     placeholder="Heslo"
                     required
-                    autocomplete="current-password"
-                />
+                    autocomplete="current-password" />
             </div>
             <div class="pb-2 text-sm text-gray-500 hover:underline">
                 <a href="/auth/forgot-password">
@@ -125,8 +124,7 @@
             Vytvořil <a
                 href="https://thevelda.eu"
                 target="_blank"
-                class="text-dark font-bold hover:underline">Velda</a
-            >
+                class="text-dark font-bold hover:underline">Jakub Velička</a>
         </p>
         <p class="text-center">
             Projekt je open-source dostupný na <a

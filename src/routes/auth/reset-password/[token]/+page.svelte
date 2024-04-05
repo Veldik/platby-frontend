@@ -44,10 +44,12 @@
                 if (response.status === 200) {
                     errorMessage = '';
                     goodMessage =
-                        'Heslo bylo úspěšně změněno. Nyní se můžete přihlásit.';
+                        'Heslo bylo úspěšně změněno. Nyní se můžeš přihlásit.';
                 } else {
                     goodMessage = '';
-                    errorMessage = 'Něco se pokazilo, zkuste to prosím znovu.';
+                    errorMessage =
+                        response?.response?.data?.message ||
+                        'Něco se pokazilo, zkus to prosím znovu.';
                 }
             })
             .catch((error) => {
@@ -59,23 +61,20 @@
 <Title title="Reset hesla" />
 
 <main
-    class="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-32"
->
+    class="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-32">
     <div class="flex flex-col items-center justify-center">
         <div class="container">
             <img
                 class="mx-auto h-24 w-auto"
                 src="/images/logo/logo-white.png"
-                alt="Veldovo platby"
-            />
+                alt="Veldovo platby" />
         </div>
     </div>
     <div class="w-full sm:w-96">
         <form on:submit|preventDefault={submit} class="flex flex-col">
             <div class="flex flex-col">
                 <label for="password" class="text-dark font-bold"
-                    >Nové heslo</label
-                >
+                    >Nové heslo</label>
                 <input
                     bind:value={password}
                     type="password"
@@ -84,13 +83,11 @@
                     class="input rounded focus:border-green-400 focus:ring-green-400"
                     placeholder="Heslo"
                     required
-                    autocomplete=""
-                />
+                    autocomplete="" />
             </div>
             <div class="flex flex-col">
                 <label for="password" class="text-dark font-bold"
-                    >Heslo znovu</label
-                >
+                    >Heslo znovu</label>
                 <input
                     bind:value={password_confirmation}
                     type="password"
@@ -99,8 +96,7 @@
                     class="input rounded focus:border-green-400 focus:ring-green-400"
                     placeholder="Heslo"
                     required
-                    autocomplete=""
-                />
+                    autocomplete="" />
             </div>
             <div class="pb-2 text-sm text-gray-500 hover:underline">
                 <a href="/"> přihlášení </a>
@@ -132,8 +128,7 @@
             Vytvořil <a
                 href="https://thevelda.eu"
                 target="_blank"
-                class="text-dark font-bold hover:underline">Velda</a
-            >
+                class="text-dark font-bold hover:underline">Jakub Velička</a>
         </p>
         <p class="text-center">
             Projekt je open-source dostupný na <a

@@ -30,15 +30,17 @@
             <div class="flex items-center space-x-4">
                 <div class="min-w-0 flex-1">
                     <p
-                        class="truncate text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                        class="truncate text-sm font-medium text-gray-900 dark:text-white">
                         {item.description}
                     </p>
                 </div>
                 <div
-                    class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                >
-                    {item.amount} Kč
+                    class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                    {new Intl.NumberFormat('cs-CZ', {
+                        style: 'currency',
+                        currency: 'CZK',
+                        minimumFractionDigits: 0,
+                    }).format(item.amount)}
                 </div>
             </div>
         </Listgroup>
@@ -47,8 +49,7 @@
         color="green"
         on:click={() => {
             openCreditEditModal();
-        }}
-    >
+        }}>
         <IconCashBanknote class="-ml-1 mr-2 h-5 w-5" />
         Přidat pohyb kreditů
     </Button>
