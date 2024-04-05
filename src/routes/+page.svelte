@@ -37,7 +37,7 @@
             )
             .then((response) => {
                 if (response.status === 200) {
-                    Cookies.set('token', response.data.token);
+                    Cookies.set('token', response.data.token, { expires: 365 });
 
                     axios.defaults.headers.common['Authorization'] =
                         `Bearer ${response.data.token}`;
