@@ -24,7 +24,8 @@
     let amIPayer = true;
     let title,
         description,
-        cronExpression = '';
+        cronExpression = '',
+        cronExpressionCustom = '';
     let disabledSubmit = false;
 
     onMount(async () => {
@@ -58,6 +59,10 @@
     const postPayment = async (e) => {
         const data = new FormData(e.target);
         let json = {};
+
+        if (cronExpression === 'custom') {
+            cronExpression = cronExpressionCustom;
+        }
 
         for (let [key, value] of data.entries()) {
             json[key] = value;
@@ -122,13 +127,25 @@
             </ButtonGroup>
         </Label>
         <Label class="space-y-2">
-            <span>Cron</span>
+            <span>Vyber interval</span>
             <ButtonGroup class="w-full">
+                <Select
+                    items={[
+                        { value: '0 10 * * *', name: 'Každý den v 10:00' },
+                        { value: '0 10 * * 1', name: 'Každé pondělí v 10:00' },
+                        // každý měsíc 1. v 10 hodin
+                        { value: '0 10 1 * *', name: 'Každý měsíc 1. v 10:00' },
+                        { value: 'custom', name: 'Vlastní cron' },
+                    ]}
+                    bind:value={cronExpression}
+                    placeholder="Vyber možnost" />
+            </ButtonGroup>
+            {#if cronExpression === 'custom'}
                 <Input
                     type="text"
                     placeholder="0 10 * * *"
-                    bind:value={cronExpression} />
-            </ButtonGroup>
+                    bind:value={cronExpressionCustom} />
+            {/if}
         </Label>
 
         <Label class="space-y-2">
@@ -186,6 +203,8 @@
                             totalAmount /
                                 (selectedPayers.length + (amIPayer ? 1 : 0))
                         )}
+                        min="1"
+                        step="0.01"
                         id={payer.id}
                         required />
                     <InputAddon>Kč</InputAddon>
