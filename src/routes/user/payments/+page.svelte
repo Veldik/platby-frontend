@@ -66,7 +66,7 @@
         );
 
         paydata.credits = repsonsepayer.data.data.creditSum;
-        paydata.qrcode = responseqrcode.data.data;
+        paydata.paymentRecord = responseqrcode.data.data;
 
         openPayPaymentModal = true;
     }
@@ -127,10 +127,8 @@
                                 <button
                                     on:click={openPayModal(paymentRecord.id)}
                                     id="pay"
-                                    class="rounded-md bg-amber-200 px-3 py-2 text-sm font-medium text-black duration-200 hover:bg-amber-300"
-                                >
-                                    Zaplatit</button
-                                >
+                                    class="rounded-md bg-amber-200 px-3 py-2 text-sm font-medium text-black duration-200 hover:bg-amber-300">
+                                    Zaplatit</button>
                             {/if}
                         </TableBodyCell>
                     </TableBodyRow>
@@ -145,5 +143,4 @@
     bind:loading={loadingQrCode}
     refresh={fetchData}
     {paydata}
-    on:close={() => (paydata = '')}
-/>
+    on:close={() => (paydata = '')} />

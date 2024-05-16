@@ -16,29 +16,45 @@
     title="Zaplacení {paydata.payment.title}"
     bind:open
     size="xs"
-    class="w-full"
->
+    class="w-full">
     <div>
         <div
-            class="grid grid-cols-1 items-center justify-center sm:grid-cols-2"
-        >
+            class="grid grid-cols-1 items-center justify-center sm:grid-cols-2">
             <div>
-                <img src={paydata.qrcode} alt="QR code" class="w-full" />
+                <img
+                    src={paydata.paymentRecord.qrcode}
+                    alt="QR kód"
+                    class="w-full" />
                 <div class="text-center">
+                    {#if paydata.paymentRecord.specificSymbol}
+                        <p class="text-sm text-gray-600">
+                            Specifický symbol <b
+                                >{paydata.paymentRecord.specificSymbol}</b>
+                        </p>
+                    {/if}
                     <p class="text-sm text-gray-600">
                         Částka <b
                             >{new Intl.NumberFormat('cs-CZ', {
                                 style: 'currency',
                                 currency: 'CZK',
-                            }).format(paydata.amount)}</b
-                        >
+                            }).format(paydata.amount)}</b>
                     </p>
                 </div>
             </div>
 
             <div class="pt-4">
                 <div class="text-center">
-                    <p class="pb-4 text-sm font-bold text-gray-700">
+                    <p class="pb-1 text-sm font-bold text-gray-700">
+                        Údaje pro platbu
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        Číslo účtu <b>{paydata.paymentRecord.accountNumber}</b>
+                    </p>
+                    <p class="pb-4 text-sm text-gray-600">
+                        Variabilní symbol <b
+                            >{paydata.paymentRecord.variableSymbol}</b>
+                    </p>
+                    <p class="pb-1 text-sm font-bold text-gray-700">
                         Platba pomocí kreditů
                     </p>
                     <p class="pb-4 text-xs text-gray-500">

@@ -58,20 +58,23 @@
         <div class="mb-4 text-center">
             <button
                 id="pay"
-                class="rounded-md bg-amber-200 px-3 py-2 text-sm font-medium text-black duration-200 hover:bg-amber-300"
-            >
-                Přidat kredit</button
-            >
+                class="rounded-md bg-amber-200 px-3 py-2 text-sm font-medium text-black duration-200 hover:bg-amber-300">
+                Přidat kredit</button>
             <Popover
                 {placement}
                 class="w-64 text-sm font-light"
                 title="Zaplatit"
                 triggeredBy="#pay"
-                trigger="click"
-            >
+                trigger="click">
                 <div class="flex flex-col items-center">
-                    <img src={creditQrCode} alt="QR Code" />
-                    <p class="text-center">Zaplaťte prosím pomocí QR kódu</p>
+                    <img src={creditQrCode.qrcode} alt="QR kód" />
+                    <p class="text-center">
+                        Číslo účtu <b>{creditQrCode.accountNumber}</b> <br />
+                        Variabilní symbol <b>{creditQrCode.variableSymbol}</b>
+                        <br />
+                        Specifický symbol <b>{creditQrCode.specificSymbol}</b>
+                        <br />
+                    </p>
                 </div>
             </Popover>
             <IconCash class="ml-2 inline-block" />
@@ -100,8 +103,7 @@
                             <span
                                 class={creditRecord.amount < 0
                                     ? 'text-red-500'
-                                    : ''}
-                            >
+                                    : ''}>
                                 {new Intl.NumberFormat('cs-CZ', {
                                     style: 'currency',
                                     currency: 'CZK',
